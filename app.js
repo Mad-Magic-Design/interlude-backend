@@ -28,6 +28,7 @@ app.get('/', function (req,res){
 app.use('/wall', interludeRoutes)
 app.use('/user', userRoutes)
 
+
 mongoose
   .connect(
     process.env.MONGODB_URI

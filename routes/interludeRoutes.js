@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { check} = require('express-validator');
 
-const interludeController = require('../controllers/interludeControllers');
+const interludesController = require('../controllers/interludesController');
 
-router.post('/create', interludeController.createInterlude);
-router.put('/update/:iid', interludeController.updateField);
-router.post('/createact/:idd', interludeController.createAct);
-router.put('/updateact/:idd', interludeController.updateAct);
-router.get('/:iid', interludeController.getInterlude);
+router.post('/create', interludesController.createInterlude);
+router.put('/update/:iid', interludesController.updateField);
+router.post('/createact/:idd', interludesController.createAct);
+router.put('/updateact/:idd', interludesController.updateAct);
+router.get('/:iid', interludesController.getInterlude);
 
 
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check} = require('express-validator');
 
-const usersController = require('../controllers/userControllers');
+const usersController = require('../controllers/usersController');
 
 router.get('/get/:uid', usersController.getUserDoc);
 
@@ -20,8 +20,8 @@ router.post('/signup',
 );
 router.post('/signin', usersController.signin);
 
-router.post('/update/:uid', userController.updateField);
+router.post('/update/:uid', usersController.updateField);
 
-router.post('/push/:uid', userController.pushField);
+router.post('/push/:uid', usersController.pushField);
 
 module.exports = router;
