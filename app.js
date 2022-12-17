@@ -25,7 +25,7 @@ app.get('/', function (req,res){
 })
 
 
-app.use('/wall', interludeRoutes)
+app.use('/interlude', interludeRoutes)
 app.use('/user', userRoutes)
 
 

@@ -29,7 +29,7 @@ const signup = async (req, res, next) => {
     return res.json({error:errors})
   }
 
-  const { username, email, password } = req.body;
+  const { email, password, userDoc } = req.body;
 
   let existingUser;
   try {
@@ -62,10 +62,9 @@ const signup = async (req, res, next) => {
   }
 
   const createdUser = new User({
-    username,
     email,
     password: hashedPassword,
-    walls: []
+    userDoc,
   });
 
   try {
@@ -93,13 +92,13 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
+  
+
   res
     .status(201)
-    .json({ userId: createdUser.id, 
-      email: createdUser.email, 
+    .json({ 
+      userId: createdUser.id, 
       token: token,
-      walls:[],
-      username: createdUser.username,
     });
 };
 
