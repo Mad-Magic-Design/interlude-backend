@@ -8,6 +8,8 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
+
+
 app.use(bodyParser.json());
 
 app.use((req,res,next) =>{

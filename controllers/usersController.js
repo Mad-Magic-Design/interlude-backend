@@ -21,16 +21,17 @@ const getUserDoc = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-  const errors = validationResult(req);
+  console.log('top of signup')
+  /*const errors = validationResult(req);
   if (!errors.isEmpty()) {
     /*next(
       new HttpError('Invalid inputs passed, please check your data.', 422)
-    );*/
+    );
     return res.json({error:errors})
-  }
+  }*/
 
   const { email, password, userDoc } = req.body;
-
+  console.log('after errors')
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
@@ -102,6 +103,10 @@ const signup = async (req, res, next) => {
     });
 };
 
+
+
+
+
 const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -161,10 +166,8 @@ const signin = async (req, res, next) => {
 
   res.json({
     userId: existingUser.id,
-    email: existingUser.email,
-    username: existingUser.username,
-    walls: existingUser.walls,
-    token: token
+    token: token,
+    userDoc: existingUser.userDoc
   });
 };
 
