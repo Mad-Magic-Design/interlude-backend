@@ -1,10 +1,12 @@
 const HttpError = require('../models/http-error');
 const Interlude = require('../models/interludeModel');
+const User = require('../models/userModel')
+const mongoose = require('mongoose');
 
 const getInterlude = async (req, res, next) => {
   let interlude;
   try {
-    interlude = await Interlude.findById(req.params.uid)
+    interlude = await Interlude.findById(req.params.iid)
   } catch (err) {
     const error = new HttpError(
       'Fetching interlude failed, please try again later.',
@@ -16,12 +18,15 @@ const getInterlude = async (req, res, next) => {
 };
 
 const createInterlude = async (req, res, next)=>{
-  const {partyName, creator, userId} = req.body
-  const newInterlude = new Interlude({partyName, creator, })
-
+  const {partyName, creator, title, userId} = req.body
+  console.log('partyName', partyName)
+  const newInterlude = new Interlude({partyName, title, creator})
+  console.log('interlude', newInterlude)
   let user;
 try {
+  console.log('userId', userId)
   user = await User.findById(userId);
+
 } catch (err) {
   const error = new HttpError(
     'error finding user.',
@@ -36,10 +41,21 @@ if (!user) {
 }
 
 try {
+  //await newInterlude.save()
   const sess = await mongoose.startSession();
   sess.startTransaction();
+  console.log('interlude', newInterlude)
   await newInterlude.save({ session: sess });
-  user.userDoc.createdInterludes.push(newInterlude)
+  const interludeInfo = {
+    id: newInterlude._id,
+    title: newInterlude.title,
+    partyName: newInterlude.partyName
+  }
+  console.log('interlude info', interludeInfo)
+  
+  user.userDoc.createdInterludes.push(interludeInfo)
+  
+  console.log('the new user', user)
   await user.save({ session: sess });
   await sess.commitTransaction();
 } catch (err) {
@@ -50,7 +66,7 @@ try {
   return next(error);
 }
 
-res.status(201).json({ interlude: interlude.toObject({getters:true}) });
+res.status(201).json({ interlude: newInterlude.toObject({getters:true}), userDoc: user.userDoc});
 
 }
 
