@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const getInterlude = async (req, res, next) => {
   let interlude;
+  console.log('iid:', req.params.iid)
   try {
     interlude = await Interlude.findById(req.params.iid)
   } catch (err) {
@@ -18,9 +19,9 @@ const getInterlude = async (req, res, next) => {
 };
 
 const createInterlude = async (req, res, next)=>{
-  const {partyName, creator, title, userId} = req.body
+  const {partyName, creator, title, description, prompt, userId} = req.body
   console.log('partyName', partyName)
-  const newInterlude = new Interlude({partyName, title, creator})
+  const newInterlude = new Interlude({partyName, title, creator, description, prompt})
   console.log('interlude', newInterlude)
   let user;
 try {

@@ -201,7 +201,8 @@ const pushField = async (req, res, next) =>{
   let user
   try{
     user= await User.findById(uid)
-    user[field].push(info)
+    user.userDoc[field].push(info)
+    console.log('pushed user', user)
     await user.save()
   }catch{
     const error = new HttpError(
@@ -210,7 +211,7 @@ const pushField = async (req, res, next) =>{
     )
     return next(error);
   }
-  if (!wall) {
+  if (!user) {
     const error = new HttpError('Could not find user for provided id.', 404);
     return next(error);
   }
