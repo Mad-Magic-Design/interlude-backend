@@ -116,15 +116,15 @@ const signin = async (req, res, next) => {
     existingUser = await User.findOne({ email: email });
   } catch (err) {
     const error = new HttpError(
-      'Logging in failed, please try again later.',
+      'Logging in failed, could not find that email',
       500
     );
-    return next(error);
+    return next('error');
   }
 
   if (!existingUser) {
     const error = new HttpError(
-      'Invalid credentials, could not log you in.',
+      'Logging in failed, could not find that email',
       403
     );
     return next(error);
@@ -135,7 +135,7 @@ const signin = async (req, res, next) => {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
   } catch (err) {
     const error = new HttpError(
-      'Could not log you in, please check your credentials and try again.',
+      'Could not log you in, please check your password and try again.',
       500
     );
     return next(error);
@@ -143,7 +143,7 @@ const signin = async (req, res, next) => {
 
   if (!isValidPassword) {
     const error = new HttpError(
-      'Invalid credentials, could not log you in.',
+      'Invalid password, could not log you in.',
       403
     );
     return next(error);
